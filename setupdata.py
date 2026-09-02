@@ -1,6 +1,4 @@
 import numpy as np
-from ucimlrepo import fetch_ucirepo
-
 def setup_data(
     dataset, 
     train_ratio: float = 0.7, 

@@ -32,11 +32,25 @@ class WFKNN:
             self.loss_hist = []
             self.X_train = None
             self.y_train = None
-    def fit(self, X_train: np.ndarray, y_train: np.ndarray):
+            self.loss_hist = []
+            self.val_loss_hist = []
+            self.train_acc_hist = []
+            self.val_acc_hist = []
+
+    def fit(self, X_train: np.ndarray, y_train: np.ndarray, 
+            X_val: np.ndarray = None, y_val: np.ndarray = None, 
+            epochs: int = None, lr: float = None):
+        
+        if epochs is not None: self.epochs = epochs
+        if lr is not None: self.lr = lr
+        
+        np.random.seed(42) 
         if self.normalize:
             self.X_train = self.standardizer.fit_transform(X_train)
+            X_val_proc = self.standardizer.transform(X_val) if X_val is not None else None
         else:
             self.X_train = X_train.copy()
+            X_val_proc = X_val.copy() if X_val is not None else None
             
         self.y_train = y_train.copy()
         d = self.X_train.shape[1]
@@ -45,34 +59,66 @@ class WFKNN:
             self.sigma2 = np.var(self.X_train, axis=0) + 1e-8
             self.w = np.ones(d) / d
             self.loss_hist = []
+            self.val_loss_hist = []
+            self.train_acc_hist = []
+            self.val_acc_hist = []
 
-            for _ in range(self.epochs):
+            best_w = self.w.copy()
+            best_val_acc = -1.0
+
+            print(f"{'Epoch':<8} | {'Train Loss':<12} | {'Val Loss':<12} | {'Train Acc':<12} | {'Val Acc':<12}")
+            for epoch in range(1, self.epochs + 1):
                 total_loss = 0.0
                 for i in range(len(self.X_train)):
                     xq, yq = self.X_train[i], self.y_train[i]
-                    
                     pos = self.X_train[self.y_train == yq]
                     pos = pos[~np.all(pos == xq, axis=1)]
                     neg = self.X_train[self.y_train != yq]
-                    
-                    if len(pos) == 0: 
-                        continue
-                    
+                    if len(pos) == 0: continue
                     xp = pos[np.random.randint(len(pos))]
                     xn = neg[np.random.randint(len(neg))]
-                    
                     dp = self.dist_calc.mahalanobis(xq, xp, self.w, self.sigma2)
                     dn = self.dist_calc.mahalanobis(xq, xn, self.w, self.sigma2)
-                    
                     L = self.loss_calc.compute_loss(dp, dn)
                     if L > 0:
                         grad = self.loss_calc.compute_gradient(xq, xp, xn, dp, dn, self.sigma2)
                         self.w -= self.lr * grad
                     total_loss += L
-                
                 self.w = np.clip(self.w, 1e-8, None)
                 self.w /= self.w.sum()
                 self.loss_hist.append(total_loss)
+                train_preds = self.predict(X_train)
+                t_acc = np.mean(train_preds == y_train) * 100
+                self.train_acc_hist.append(t_acc)
+                if X_val is not None and y_val is not None:
+                    val_preds = self.predict(X_val)
+                    v_acc = np.mean(val_preds == y_val) * 100
+                    self.val_acc_hist.append(v_acc)
+
+                    if v_acc > best_val_acc:
+                        best_val_acc = v_acc
+                        best_w = self.w.copy()
+
+                    v_loss = 0.0
+                    for i in range(len(X_val_proc)):
+                        xq, yq = X_val_proc[i], y_val[i]
+                        pos = self.X_train[self.y_train == yq]
+                        neg = self.X_train[self.y_train != yq]
+                        if len(pos) > 0 and len(neg) > 0:
+                            dp = self.dist_calc.mahalanobis(xq, pos[0], self.w, self.sigma2)
+                            dn = self.dist_calc.mahalanobis(xq, neg[0], self.w, self.sigma2)
+                            v_loss += self.loss_calc.compute_loss(dp, dn)
+                    self.val_loss_hist.append(v_loss)
+                    v_loss_str = f"{v_loss:.4f}"
+                    v_acc_str = f"{v_acc:.2f}%"
+                else:
+                    v_loss_str = "N/A"
+                    v_acc_str = "N/A"
+                print(f"{epoch:<8} | {total_loss:<12.4f} | {v_loss_str:<12} | {t_acc:<11.2f}% | {v_acc_str:<12}")
+
+            if X_val is not None and y_val is not None:
+                self.w = best_w.copy()
+
         return self
 
     def predict(self, X_test: np.ndarray) -> np.ndarray:
@@ -117,6 +163,8 @@ class WFKNN:
                 self.plotter.plot_accuracy_comparison(y_test, preds_dict)
         if X_raw is not None and self.X_train is not None:
             self.plotter.plot_normalization_effect(X_raw, self.X_train)
+        self.plotter.plot_loss_train_val(self.loss_hist, self.val_loss_hist )
+        self.plotter.plot_accuracy_train_val(self.train_acc_hist, self.val_acc_hist)
 
     def clone(self):
         return deepcopy(self)

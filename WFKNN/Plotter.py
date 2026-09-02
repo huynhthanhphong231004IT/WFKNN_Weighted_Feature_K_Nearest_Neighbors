@@ -156,3 +156,35 @@ class WFKNNPlotter:
         axes[1].grid(alpha=0.3)
 
         self._save_fig(save_name)
+    def plot_loss_train_val(self, train_loss: list, val_loss: list = None, save_name: str = "11_train_val_loss.png"):
+        if not train_loss: return
+        epochs = range(1, len(train_loss) + 1)
+        plt.figure(figsize=(6.5, 4))
+        plt.plot(epochs, train_loss, color='#d62728', linewidth=2, label='Train Loss')
+        
+        if val_loss and len(val_loss) == len(train_loss):
+            plt.plot(epochs, val_loss, color='#ff7f0e', linestyle='--', linewidth=2, label='Val Loss')
+            
+        plt.title("Hinge Loss qua các Epoch (Train vs Val)")
+        plt.xlabel("Epoch")
+        plt.ylabel("Loss")
+        plt.legend()
+        plt.grid(alpha=0.3)
+        self._save_fig(save_name)
+
+    def plot_accuracy_train_val(self, train_acc: list, val_acc: list = None, save_name: str = "12_train_val_accuracy.png"):
+        if not train_acc: return
+        epochs = range(1, len(train_acc) + 1)
+        plt.figure(figsize=(6.5, 4))
+        plt.plot(epochs, train_acc, color='#1f77b4', linewidth=2, label='Train Accuracy')
+        
+        if val_acc and len(val_acc) == len(train_acc):
+            plt.plot(epochs, val_acc, color='#2ca02c', linestyle='--', linewidth=2, label='Val Accuracy')
+            
+        plt.title("Accuracy qua các Epoch (Train vs Val)")
+        plt.xlabel("Epoch")
+        plt.ylabel("Accuracy (%)")
+        plt.ylim(0, 105)
+        plt.legend()
+        plt.grid(alpha=0.3)
+        self._save_fig(save_name)
