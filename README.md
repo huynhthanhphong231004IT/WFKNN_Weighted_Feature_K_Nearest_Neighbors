@@ -135,11 +135,7 @@ print(f"- WFKNN (Mahalanobis)  : {m3.evaluate(X_te, y_te) * 100:.2f}%")
 m3.plot_results(X_test=X_te, y_test=y_te, preds_dict=preds_dict_wine, X_raw=X_tr)
 ```
 
-<h3 align="left">
-  <span style="color:#8B4513;">
-    <b>Theoretical framework of the proposed study</b>
-  </span>
-</h3>
+## Khung lý thuyết của nghiên cứu được đề xuất
 
 <h2 align="center">
   <span style="color:#8B4513;">
@@ -195,3 +191,68 @@ Khi vi phạm điều kiện margin ($L > 0$), mô hình tiến hành tính đ�
 
 1. Quy tắc Cập nhật (Gradient Descent Update Rule):
 Sau mỗi bước lan truyền tiến trên một bộ ba triplet $(x_q, x^+, x^-)$, trọng số $w_j$ được cập nhật như sau: $$w_j^{(t+1)} \leftarrow w_j^{(t)} - \eta \cdot \frac{\partial L}{\partial w_j}$$. Với $\eta > 0$: Tốc độ học (Learning Rate). Ràng buộc phi âm (Non-negativity Constraint): Sau bước cập nhật, nếu $w_j < 0$, gán $w_j \leftarrow \max(0, w_j)$ để đảm bảo tính chất độ đo khoảng cách hợp lệ.
+
+## Kết quả đánh giá trên tập sonar (ID = 151)
+
+<p align="center">
+  <img src="Plot/9_accuracy_comparison.png" width="600">
+  <br>
+  <i>So sánh độ chính xác (Accuracy) giữa các biến thể mô hình WFKNN</i>
+</p>
+
+<p align="center">
+  <img src="Plot/11_train_val_loss.png" width="600">
+  <br>
+  <i>Đường cong hội tụ của hàm mất mát trên tập huấn luyện và tập kiểm định (Train/Val Loss)</i>
+</p>
+
+<p align="center">
+  <img src="Plot/12_train_val_accuracy.png" width="600">
+  <br>
+  <i>Đường cong biến thiên độ chính xác trên tập huấn luyện và tập kiểm định (Train/Val Accuracy)</i>
+</p>
+
+<p align="center">
+  <img src="Plot/4_pca_projection.png" width="600">
+  <br>
+  <i>Trực quan hóa không gian dữ liệu trước và sau khi học trọng số bằng PCA</i>
+</p>
+
+<p align="center">
+  <img src="Plot/10_normalization_effect.png" width="600">
+  <br>
+  <i>Đánh giá ảnh hưởng của bước chuẩn hóa dữ liệu lên phân phối thuộc tính và khoảng cách</i>
+</p>
+
+<p align="center">
+  <img src="Plot/1_hinge_loss.png" width="600">
+  <br>
+  <i>Kết quả thử nghiệm phân loại mô hình WFKNN với hàm mất mát</i>
+</p>
+
+
+<p align="center">
+  <img src="Plot/2_feature_weights.png" width="600">
+  <br>
+  <i>So sánh mức độ quan trọng của các đặc trưng giữa các biến thể mô hình</i>
+</p>
+
+<p align="center">
+  <img src="Plot/8_pca_explained_variance.png" width="600">
+  <br>
+  <i>ỷ lệ phương sai giải thích tích lũy của các thành phần chính (PCA Explained Variance Ratio)</i>
+</p>
+
+
+<p align="center">
+  <img src="Plot/3_confusion_matrix.png" width="600">
+  <br>
+  <i>Ma trận nhầm lẫn (Confusion Matrix) đánh giá khả năng phân loại của mô hình</i>
+</p>
+
+
+<p align="center">
+  <img src="Plot/6_feature_correlation.png" width="600">
+  <br>
+  <i>Ma trận tương quan giữa các đặc trưng (Feature Correlation Matrix)</i>
+</p>
