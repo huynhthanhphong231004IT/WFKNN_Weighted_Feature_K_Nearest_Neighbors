@@ -241,7 +241,7 @@ Sau mỗi bước lan truyền tiến trên một bộ ba triplet $(x_q, x^+, x^
 <p align="center">
   <img src="Plot/8_pca_explained_variance.png" width="600">
   <br>
-  <i>ỷ lệ phương sai giải thích tích lũy của các thành phần chính (PCA Explained Variance Ratio)</i>
+  <i>Tỷ lệ phương sai giải thích tích lũy của các thành phần chính (PCA Explained Variance Ratio)</i>
 </p>
 
 
