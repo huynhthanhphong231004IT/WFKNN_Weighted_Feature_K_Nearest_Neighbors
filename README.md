@@ -193,6 +193,11 @@ Khi vi phạm điều kiện margin ($L > 0$), mô hình tiến hành tính đ�
 Sau mỗi bước lan truyền tiến trên một bộ ba triplet $(x_q, x^+, x^-)$, trọng số $w_j$ được cập nhật như sau: $$w_j^{(t+1)} \leftarrow w_j^{(t)} - \eta \cdot \frac{\partial L}{\partial w_j}$$. Với $\eta > 0$: Tốc độ học (Learning Rate). Ràng buộc phi âm (Non-negativity Constraint): Sau bước cập nhật, nếu $w_j < 0$, gán $w_j \leftarrow \max(0, w_j)$ để đảm bảo tính chất độ đo khoảng cách hợp lệ.
 
 ## Kết quả đánh giá trên tập sonar (ID = 151)
+<p align="center">
+  <img src="Plot/2_feature_weights.png" width="600">
+  <br>
+  <i>So sánh mức độ quan trọng của các đặc trưng giữa các biến thể mô hình</i>
+</p>
 
 <p align="center">
   <img src="Plot/9_accuracy_comparison.png" width="600">
@@ -200,11 +205,6 @@ Sau mỗi bước lan truyền tiến trên một bộ ba triplet $(x_q, x^+, x^
   <i>So sánh độ chính xác (Accuracy) giữa các biến thể mô hình WFKNN</i>
 </p>
 
-<p align="center">
-  <img src="Plot/2_feature_weights.png" width="600">
-  <br>
-  <i>So sánh mức độ quan trọng của các đặc trưng giữa các biến thể mô hình</i>
-</p>
 
 <p align="center">
   <img src="Plot/11_train_val_loss.png" width="600">
