@@ -201,6 +201,12 @@ Sau mỗi bước lan truyền tiến trên một bộ ba triplet $(x_q, x^+, x^
 </p>
 
 <p align="center">
+  <img src="Plot/2_feature_weights.png" width="600">
+  <br>
+  <i>So sánh mức độ quan trọng của các đặc trưng giữa các biến thể mô hình</i>
+</p>
+
+<p align="center">
   <img src="Plot/11_train_val_loss.png" width="600">
   <br>
   <i>Đường cong hội tụ của hàm mất mát trên tập huấn luyện và tập kiểm định (Train/Val Loss)</i>
@@ -211,6 +217,7 @@ Sau mỗi bước lan truyền tiến trên một bộ ba triplet $(x_q, x^+, x^
   <br>
   <i>Đường cong biến thiên độ chính xác trên tập huấn luyện và tập kiểm định (Train/Val Accuracy)</i>
 </p>
+
 
 <p align="center">
   <img src="Plot/4_pca_projection.png" width="600">
@@ -230,12 +237,6 @@ Sau mỗi bước lan truyền tiến trên một bộ ba triplet $(x_q, x^+, x^
   <i>Kết quả thử nghiệm phân loại mô hình WFKNN với hàm mất mát</i>
 </p>
 
-
-<p align="center">
-  <img src="Plot/2_feature_weights.png" width="600">
-  <br>
-  <i>So sánh mức độ quan trọng của các đặc trưng giữa các biến thể mô hình</i>
-</p>
 
 <p align="center">
   <img src="Plot/8_pca_explained_variance.png" width="600">
